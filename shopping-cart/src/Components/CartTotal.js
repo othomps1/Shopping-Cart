@@ -9,7 +9,7 @@ const CartTotal = ({ items }) => {
     console.log(sum)
     return (
     <div className="total">
-        <h4>Total Price:{sum}</h4>
+        <h4>Total Price:${sum}</h4>
     </div>
     )
 }

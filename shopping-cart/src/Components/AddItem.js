@@ -55,7 +55,7 @@ class AddItem extends React.Component {
         <div>
           <form onSubmit={this.onSubmit}>
             <div>
-              <label>quantity: </label>
+              <label>Quantity: </label>
               <input value={this.state.quantity} onChange={this.onquantityChange} />
             </div>
             <div>

@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import './App.css'
-import CartHeader from './Components/CartHeader.js'
-import CartFooter from './Components/CartFooter.js'
-import CartItems from './Components/CartItems.js'
-import AddItem from './Components/AddItem.js'
-import CartTotal from './Components/CartTotal.js'
+import CartHeader from './Components/CartHeader'
+import CartFooter from './Components/CartFooter'
+import CartItems from './Components/CartItems'
+import AddItem from './Components/AddItem'
+import CartTotal from './Components/CartTotal'
 
 
 class App extends Component {
