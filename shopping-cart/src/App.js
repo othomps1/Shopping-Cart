@@ -4,15 +4,12 @@ import CartHeader from './Components/CartHeader'
 import CartFooter from './Components/CartFooter'
 import CartItems from './Components/CartItems'
 import AddItem from './Components/AddItem'
-import CartTotal from './Components/CartTotal'
-
 
 class App extends Component {
-
   constructor(props) {
     super(props)
     this.state = {
-      cartItemsList: [
+      items: [
         { id: 1, product: { id: 40, name: 'Mediocre Iron Watch', priceInCents: 399 }, quantity: 1 },
         { id: 2, product: { id: 41, name: 'Heavy Duty Concrete Plate', priceInCents: 499 }, quantity: 2 },
         { id: 3, product: { id: 42, name: 'Intelligent Paper Knife', priceInCents: 1999 }, quantity: 1 },
@@ -27,35 +24,33 @@ class App extends Component {
         { id: 46, name: 'Intelligent Leather Clock', priceInCents: 2999 },
         { id: 47, name: 'Ergonomic Bronze Lamp', priceInCents: 40000 },
         { id: 48, name: 'Awesome Leather Shoes', priceInCents: 3990 },
-      ],
+      ]
     }
   }
 
-  onAddItem = (product) => {
-     this.setState((prevState) => ({
-       ...prevState,
-      cartItemsList: prevState.cartItemsList.concat(product)
-     }))
+  onAddItem = ({ quantity, product }) => {
+    const nextMaxId = this.state.items
+      .reduce((acc, el) => Math.max(acc, el.id), 0) + 1
+
+    const newItem = { quantity, product, id: nextMaxId }
+    const newItems = [...this.state.items, newItem]
+
+    this.setState({
+      ...this.state,
+      items: newItems
+    })
   }
 
   render() {
     return (
-      <div className="shoppingCartMain">
-        <div className="header">
-          <CartHeader/>
-        </div>
-        <div className="cartItems">
-          <CartItems items={this.state.cartItemsList} />
-          <CartTotal items={this.state.cartItemsList}/>
-          <AddItem options={this.state.products} AddItem={this.onAddItem}/>
-        </div>
-        <div className="footer">
-          <CartFooter/>
-        </div>
+      <div className="App">
+      <CartHeader />
+        <CartItems items={this.state.items}/>
+        <AddItem products={this.state.products} onAddItem={this.onAddItem}/>
+      <CartFooter copyright='Today, Junior' />
       </div>
     )
   }
 }
-
 
 export default App

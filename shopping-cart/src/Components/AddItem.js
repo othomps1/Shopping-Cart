@@ -1,74 +1,51 @@
-import React from 'react'
+import React, { Component } from 'react'
 
-class AddItem extends React.Component {
-    constructor(props) {
-      super(props)
-      this.state = {
-        itemId: 1,
-        quantity: 1,
-      }
-    }
-
-    onSubmit = (e) => {
-      e.preventDefault()
-      const { itemId, quantity } = this.state
-      const { AddItem } = this.props
-      const options = this.props.options
-    const item = options.find((element) => {
-        return element.id === parseInt(itemId)
-    })
-      let product = {
-        product: {
-            id: item.id,
-            name: item.name,
-            priceInCents: item.priceInCents,
-        },
-        quantity: quantity
-    }
-      AddItem(product)
-      this.setState({
-        itemId: 1,
-        quantity: 0
-      })
-    }
-
-    onquantityChange = (e) => {
-      e.preventDefault()
-      this.setState({
-        ...this.state,
-        quantity: e.target.value
-      })
-    }
-
-    onItemChange = (e) => {
-      e.preventDefault()
-      console.log(e.target.value)
-      this.setState({
-        ...this.state,
-        itemId: e.target.value
-      })
-    }
-    render() {
-        const options = this.props.options
-        console.log(options)
-      return (
-        <div>
-          <form onSubmit={this.onSubmit}>
-            <div>
-              <label>Quantity: </label>
-              <input value={this.state.quantity} onChange={this.onquantityChange} />
-            </div>
-            <div>
-              <label>Item: </label>
-              <select value={this.state.value} onChange={this.onItemChange}>
-              {options.map((option) => {return <option value={option.id}>{option.name}</option>})}
-              </select>
-            </div>
-            <input type='submit' />
-          </form>
-        </div>
-      )
+class AddItem extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      quantity: 1,
+      productID: this.props.products[0].id,
     }
   }
 
-  export default AddItem;
+  onChange = (e) => {
+    this.setState({
+      ...this.state,
+      [e.target.name]: +e.target.value,
+    })
+  }
+
+  onSubmit = (e) => {
+    e.preventDefault()
+
+    const { quantity, productID } = this.state
+    const product = this.props.products.find(product => product.id === productID)
+    this.props.onAddItem({ quantity, product })
+  }
+
+  render() {
+    const { products } = this.props
+    return (
+      <div className='container'>
+      <form onSubmit={this.onSubmit}>
+        <div>
+        <label>Quantity</label><br/>
+        <input type='number' min='1' name='quantity' value={this.state.quantity} onChange={this.onChange}/>
+        </div>
+        <div>
+          <label>Product</label><br />
+          <select name='productID' onChange={this.onChange}>
+            {products.map((product, idx) => (
+                <option key={idx} value={product.id}>{product.name}</option>
+            ))}
+          </select>
+        </div>
+        <input className='submit-button' type='submit'/>
+      </form>
+      </div>
+    )
+  }
+}
+
+export default AddItem
